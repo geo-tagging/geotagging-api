@@ -1,5 +1,22 @@
 const TagModel = require("../models/tanaman.js");
 
+const createNewTag = async (req, res, next) => {
+  const { body } = req;
+
+  try {
+    await TagModel.createNewTag(body);
+    res.json({
+      message: "Create Tag Success",
+      data: body,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const getAllTag = async (req, res, next) => {
   try {
     const [data] = await TagModel.getAllTag();
@@ -16,14 +33,21 @@ const getAllTag = async (req, res, next) => {
   }
 };
 
-const createNewTag = async (req, res, next) => {
-  const { body } = req;
+const getTagById = async (req, res, next) => {
+  const { plant_id } = req.params;
 
   try {
-    await TagModel.createNewTag(body);
+    const [data] = await TagModel.getTagById(plant_id);
+
+    if (!data) {
+      return res.status(404).json({
+        message: "Tag not found",
+      });
+    }
+
     res.json({
-      message: "Create Tag Success",
-      data: body,
+      message: "GET tag by id success",
+      data: data,
     });
   } catch (error) {
     res.status(500).json({
@@ -73,8 +97,9 @@ const deleteTag = async (req, res, next) => {
 };
 
 module.exports = {
-  getAllTag,
   createNewTag,
+  getAllTag,
+  getTagById,
   updateTag,
   deleteTag,
 };

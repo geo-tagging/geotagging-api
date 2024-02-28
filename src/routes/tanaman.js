@@ -2,9 +2,11 @@ const express = require("express");
 const controllerTag = require("../controller/tanaman.js");
 const routes = express.Router();
 
+routes.post("/", controllerTag.createNewTag);
+
 routes.get("/", controllerTag.getAllTag);
 
-routes.post("/", controllerTag.createNewTag);
+routes.get("/:plant_id", controllerTag.getTagById);
 
 routes.patch("/:plant_id", controllerTag.updateTag);
 
