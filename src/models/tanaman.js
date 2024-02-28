@@ -18,8 +18,15 @@ const updateTag = (plant_id, body) => {
   return dbPool.execute(SQLQuery);
 };
 
+const deleteTag = (plant_id) => {
+  const SQLQuery = `DELETE FROM tb_tanaman WHERE plant_id=${plant_id}`;
+
+  return dbPool.execute(SQLQuery);
+};
+
 module.exports = {
   getAllTag,
   createNewTag,
   updateTag,
+  deleteTag,
 };

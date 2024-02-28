@@ -8,4 +8,6 @@ routes.post("/", controllerTag.createNewTag);
 
 routes.patch("/:plant_id", controllerTag.updateTag);
 
+routes.delete("/:plant_id", controllerTag.deleteTag);
+
 module.exports = routes;

@@ -41,7 +41,28 @@ const updateTag = async (req, res, next) => {
     await TagModel.updateTag(plant_id, body);
     res.json({
       message: "Update Tag Success",
-      data: body,
+      data: {
+        id: plant_id,
+        ...body,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const deleteTag = async (req, res, next) => {
+  const { plant_id } = req.params;
+
+  try {
+    await TagModel.deleteTag(plant_id);
+
+    res.json({
+      message: "DELETE tag success",
+      data: null,
     });
   } catch (error) {
     res.status(500).json({
@@ -55,4 +76,5 @@ module.exports = {
   getAllTag,
   createNewTag,
   updateTag,
+  deleteTag,
 };
