@@ -13,8 +13,6 @@ app.use(express.json());
 
 app.use("/tanaman", routesTag);
 
-app.use("/", (req, res, next) => {});
-
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);
 });
