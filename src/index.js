@@ -4,7 +4,7 @@ const middlewareLogRequest = require("./middleware/logs.js");
 const routesTag = require("./routes/tanaman.js");
 
 require("dotenv").config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 9000;
 
 const app = express();
 
