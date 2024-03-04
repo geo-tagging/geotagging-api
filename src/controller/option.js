@@ -1,11 +1,12 @@
-const optionModel = require("../models/tanaman.js");
+// controller/option.js
+const optionModel = require("../models/option.js");
 
 const getAllOption = async (req, res, next) => {
   try {
-    const [data] = await optionModelModel.getAllTag();
+    const data = await optionModel.getAllOption();
 
     res.json({
-      message: "GET all tag success",
+      message: "GET all option success",
       data: data,
     });
   } catch (error) {
