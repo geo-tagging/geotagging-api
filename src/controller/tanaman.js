@@ -57,6 +57,24 @@ const getTagById = async (req, res, next) => {
   }
 };
 
+const searchTag = async (req, res, next) => {
+  const { keyword } = req.params;
+
+  try {
+    const [data] = await TagModel.searchTag(keyword);
+
+    res.json({
+      message: "Search tanaman success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const updateTag = async (req, res, next) => {
   const { plant_id } = req.params;
   const { body } = req;
@@ -100,6 +118,7 @@ module.exports = {
   createNewTag,
   getAllTag,
   getTagById,
+  searchTag,
   updateTag,
   deleteTag,
 };

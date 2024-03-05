@@ -59,6 +59,30 @@ const getTagById = (plant_id) => {
   return dbPool.execute(SQLQuery);
 };
 
+const searchTag = (keyword) => {
+  const SQLQuery = `SELECT 
+                      tb_jenis.nama,
+                      tb_kegiatan.kegiatan,
+                      tb_lokasi.lokasi,
+                      tb_sk.skppkh,
+                      tb_tanaman.tanggal
+                    FROM 
+                      tb_tanaman
+                    JOIN 
+                      tb_jenis ON tb_tanaman.id_jenis = tb_jenis.id_jenis
+                    JOIN 
+                      tb_kegiatan ON tb_tanaman.id_kegiatan = tb_kegiatan.id_kegiatan
+                    JOIN 
+                      tb_lokasi ON tb_tanaman.id_lokasi = tb_lokasi.id_lokasi
+                    JOIN 
+                      tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk
+                    WHERE 
+                      tb_jenis.nama LIKE '%${keyword}%' 
+                      OR tb_tanaman.tanggal LIKE '%${keyword}%'`;
+
+  return dbPool.execute(SQLQuery);
+};
+
 const updateTag = (plant_id, body) => {
   const SQLQuery = `UPDATE tb_tanaman 
                     SET 
@@ -70,7 +94,8 @@ const updateTag = (plant_id, body) => {
                       latitude='${body.latitude}', 
                       longitude='${body.longitude}', 
                       elevasi='${body.elevasi}' 
-                    WHERE plant_id='${plant_id}'`;
+                    WHERE 
+                      plant_id='${plant_id}'`;
   return dbPool.execute(SQLQuery);
 };
 
@@ -84,6 +109,7 @@ module.exports = {
   createNewTag,
   getAllTag,
   getTagById,
+  searchTag,
   updateTag,
   deleteTag,
 };
