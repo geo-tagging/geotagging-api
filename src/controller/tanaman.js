@@ -59,9 +59,10 @@ const getTagById = async (req, res, next) => {
 
 const searchTag = async (req, res, next) => {
   const { keyword } = req.params;
+  const { orderBy, sort } = req.query;
 
   try {
-    const [data] = await TagModel.searchTag(keyword);
+    const [data] = await TagModel.searchTag(keyword, orderBy, sort);
 
     res.json({
       message: "Search tanaman success",

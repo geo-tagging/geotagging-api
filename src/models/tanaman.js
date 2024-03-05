@@ -59,7 +59,7 @@ const getTagById = (plant_id) => {
   return dbPool.execute(SQLQuery);
 };
 
-const searchTag = (keyword) => {
+const searchTag = (keyword, orderBy, sort) => {
   const SQLQuery = `SELECT 
                       tb_jenis.nama,
                       tb_kegiatan.kegiatan,
@@ -79,6 +79,10 @@ const searchTag = (keyword) => {
                     WHERE 
                       tb_jenis.nama LIKE '%${keyword}%' 
                       OR tb_tanaman.tanggal LIKE '%${keyword}%'`;
+
+  if (orderBy) {
+    SQLQuery += ` ORDER BY '${orderBy}' '${sort}'`;
+  }
 
   return dbPool.execute(SQLQuery);
 };
