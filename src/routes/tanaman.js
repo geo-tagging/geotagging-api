@@ -4,11 +4,11 @@ const routes = express.Router();
 
 routes.post("/", controllerTag.createNewTag);
 
-routes.get("/", controllerTag.getAllTag);
+routes.get("/:orderBy/:sort", controllerTag.getAllTag);
 
 routes.get("/:plant_id", controllerTag.getTagById);
 
-routes.get("/search/:keyword", controllerTag.searchTag);
+routes.get("/search/:keyword/:orderBy/:sort", controllerTag.searchTag);
 
 routes.patch("/:plant_id", controllerTag.updateTag);
 

@@ -25,7 +25,7 @@ const createNewTag = (body) => {
   return dbPool.execute(SQLQuery);
 };
 
-const getAllTag = () => {
+const getAllTag = (orderBy, sort) => {
   const SQLQuery = `SELECT 
                       tb_tanaman.plant_id,
                       tb_tanaman.id_jenis,
@@ -49,7 +49,8 @@ const getAllTag = () => {
                     JOIN 
                       tb_lokasi ON tb_tanaman.id_lokasi = tb_lokasi.id_lokasi
                     JOIN 
-                      tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk`;
+                      tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk
+                    ORDER BY ${orderBy} ${sort}`;
 
   return dbPool.execute(SQLQuery);
 };
@@ -61,11 +62,19 @@ const getTagById = (plant_id) => {
 
 const searchTag = (keyword, orderBy, sort) => {
   const SQLQuery = `SELECT 
+                      tb_tanaman.plant_id,
+                      tb_tanaman.id_jenis,
                       tb_jenis.nama,
+                      tb_tanaman.id_kegiatan,
                       tb_kegiatan.kegiatan,
+                      tb_tanaman.id_lokasi,
                       tb_lokasi.lokasi,
+                      tb_tanaman.id_sk,
                       tb_sk.skppkh,
-                      tb_tanaman.tanggal
+                      tb_tanaman.tanggal,
+                      tb_tanaman.latitude,
+                      tb_tanaman.longitude,
+                      tb_tanaman.elevasi
                     FROM 
                       tb_tanaman
                     JOIN 
@@ -78,11 +87,12 @@ const searchTag = (keyword, orderBy, sort) => {
                       tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk
                     WHERE 
                       tb_jenis.nama LIKE '%${keyword}%' 
-                      OR tb_tanaman.tanggal LIKE '%${keyword}%'`;
-
-  if (orderBy) {
-    SQLQuery += ` ORDER BY '${orderBy}' '${sort}'`;
-  }
+                      OR tb_tanaman.tanggal LIKE '%${keyword}%'
+                      OR tb_kegiatan.kegiatan LIKE '%${keyword}%'
+                      OR tb_lokasi.lokasi LIKE '%${keyword}%'
+                      OR tb_sk.skppkh LIKE '%${keyword}%'
+                    ORDER BY 
+                      ${orderBy} ${sort}`;
 
   return dbPool.execute(SQLQuery);
 };

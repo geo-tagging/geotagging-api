@@ -18,8 +18,10 @@ const createNewTag = async (req, res, next) => {
 };
 
 const getAllTag = async (req, res, next) => {
+  const { orderBy, sort } = req.params;
+
   try {
-    const [data] = await TagModel.getAllTag();
+    const [data] = await TagModel.getAllTag(orderBy, sort);
 
     res.json({
       message: "GET all tag success",
@@ -58,8 +60,7 @@ const getTagById = async (req, res, next) => {
 };
 
 const searchTag = async (req, res, next) => {
-  const { keyword } = req.params;
-  const { orderBy, sort } = req.query;
+  const { keyword, orderBy, sort } = req.params;
 
   try {
     const [data] = await TagModel.searchTag(keyword, orderBy, sort);
