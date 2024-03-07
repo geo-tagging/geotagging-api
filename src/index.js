@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // Izinkan permintaan dari semua sumber
+    origin: "*",
   })
 );
 
