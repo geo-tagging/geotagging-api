@@ -4,7 +4,6 @@ const mysql2 = require("mysql2");
 const middlewareLogRequest = require("./middleware/logs.js");
 const upload = require("./middleware/multer.js");
 
-const routesUser = require("./routes/user.js");
 const routesTag = require("./routes/tanaman.js");
 const routesOption = require("./routes/option.js");
 
