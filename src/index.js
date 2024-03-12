@@ -26,6 +26,7 @@ app.use(express.json());
 app.use("/tanaman", routesTag);
 app.use("/option", routesOption);
 
+app.use("/assets", express.static("public/images"));
 app.post("/upload", upload.single("photo"), (req, res) => {
   res.json({
     message: "upload berhasil",
