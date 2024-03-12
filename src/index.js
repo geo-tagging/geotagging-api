@@ -1,6 +1,8 @@
 // Import dependencie
 const express = require("express");
 const mysql2 = require("mysql2");
+require("dotenv").config();
+const cors = require("cors");
 
 // Setup the express server
 const app = express();
@@ -17,10 +19,6 @@ app.use(middlewareLogRequest);
 app.use(express.json());
 
 // Import cors
-const cors = require("cors");
-
-require("dotenv").config();
-
 app.use(
   cors({
     origin: "*",
