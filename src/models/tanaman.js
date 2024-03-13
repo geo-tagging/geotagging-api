@@ -12,17 +12,27 @@ const createNewTag = (body) => {
                       elevasi
                       )
                     VALUES ('',
-                      '${body.id_jenis}',
-                      '${body.id_kegiatan}',
-                      '${body.id_lokasi}',
-                      '${body.id_sk}',
-                      '${body.tanggal}',
-                      '${body.latitude}',
-                      '${body.longitude}',
-                      '${body.elevasi}'
+                      ?,
+                      ?,
+                      ?,
+                      ?,
+                      ?,
+                      ?,
+                      ?,
+                      ?
                     )`;
+  const values = [
+    body.id_jenis,
+    body.id_kegiatan,
+    body.id_lokasi,
+    body.id_sk,
+    body.tanggal,
+    body.latitude,
+    body.longitude,
+    body.elevasi,
+  ];
 
-  return dbPool.execute(SQLQuery);
+  return dbPool.execute(SQLQuery, values);
 };
 
 const getAllTag = (orderBy, sort) => {
@@ -50,9 +60,9 @@ const getAllTag = (orderBy, sort) => {
                       tb_lokasi ON tb_tanaman.id_lokasi = tb_lokasi.id_lokasi
                     JOIN 
                       tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk
-                    ORDER BY ${orderBy} ${sort}`;
+                    ORDER BY ? ${sort}`;
 
-  return dbPool.execute(SQLQuery);
+  return dbPool.execute(SQLQuery, [orderBy]);
 };
 
 const getTagById = (plant_id) => {
@@ -86,37 +96,56 @@ const searchTag = (keyword, orderBy, sort) => {
                     JOIN 
                       tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk
                     WHERE 
-                      tb_jenis.nama LIKE '%${keyword}%' 
-                      OR tb_tanaman.tanggal LIKE '%${keyword}%'
-                      OR tb_kegiatan.kegiatan LIKE '%${keyword}%'
-                      OR tb_lokasi.lokasi LIKE '%${keyword}%'
-                      OR tb_sk.skppkh LIKE '%${keyword}%'
+                      tb_jenis.nama LIKE ? 
+                      OR tb_tanaman.tanggal LIKE ?
+                      OR tb_kegiatan.kegiatan LIKE ?
+                      OR tb_lokasi.lokasi LIKE ?
+                      OR tb_sk.skppkh LIKE ?
                     ORDER BY 
                       ${orderBy} ${sort}`;
 
-  return dbPool.execute(SQLQuery);
+  const values = [
+    `%${keyword}%`,
+    `%${keyword}%`,
+    `%${keyword}%`,
+    `%${keyword}%`,
+    `%${keyword}%`,
+  ];
+
+  return dbPool.execute(SQLQuery, values);
 };
 
 const updateTag = (plant_id, body) => {
   const SQLQuery = `UPDATE tb_tanaman 
                     SET 
-                      id_jenis='${body.id_jenis}', 
-                      id_kegiatan='${body.id_kegiatan}', 
-                      id_lokasi='${body.id_lokasi}', 
-                      id_sk='${body.id_sk}', 
-                      tanggal='${body.tanggal}', 
-                      latitude='${body.latitude}', 
-                      longitude='${body.longitude}', 
-                      elevasi='${body.elevasi}' 
+                      id_jenis=?, 
+                      id_kegiatan=?, 
+                      id_lokasi=?, 
+                      id_sk=?, 
+                      tanggal=?, 
+                      latitude=?, 
+                      longitude=?, 
+                      elevasi=? 
                     WHERE 
-                      plant_id='${plant_id}'`;
-  return dbPool.execute(SQLQuery);
+                      plant_id=?`;
+  const values = [
+    body.id_jenis,
+    body.id_kegiatan,
+    body.id_lokasi,
+    body.id_sk,
+    body.tanggal,
+    body.latitude,
+    body.longitude,
+    body.elevasi,
+    plant_id,
+  ];
+  return dbPool.execute(SQLQuery, values);
 };
 
 const deleteTag = (plant_id) => {
-  const SQLQuery = `DELETE FROM tb_tanaman WHERE plant_id=${plant_id}`;
+  const SQLQuery = `DELETE FROM tb_tanaman WHERE plant_id=?`;
 
-  return dbPool.execute(SQLQuery);
+  return dbPool.execute(SQLQuery, [plant_id]);
 };
 
 module.exports = {
