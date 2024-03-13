@@ -36,6 +36,12 @@ app.post("/upload", upload.single("photo"), (req, res) => {
   });
 });
 
+app.use((err, req, res, next) => {
+  res.json({
+    message: err.message,
+  });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);
