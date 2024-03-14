@@ -6,7 +6,8 @@ const createNewTag = (body) => {
                       id_jenis, 
                       id_kegiatan, 
                       id_lokasi, 
-                      id_sk, tanggal, 
+                      id_sk, 
+                      tanggal, 
                       latitude, 
                       longitude, 
                       elevasi
@@ -125,7 +126,7 @@ const updateTag = (plant_id, body) => {
                       tanggal=?, 
                       latitude=?, 
                       longitude=?, 
-                      elevasi=? 
+                      elevasi=?
                     WHERE 
                       plant_id=?`;
   const values = [
