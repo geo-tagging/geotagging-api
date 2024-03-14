@@ -1,6 +1,6 @@
 const dbPool = require("../config/database.js");
 
-const createNewTag = (body) => {
+const createNewTag = (body, images) => {
   const SQLQuery = `INSERT INTO tb_tanaman (
                       plant_id, 
                       id_jenis, 
@@ -13,6 +13,7 @@ const createNewTag = (body) => {
                       elevasi
                       )
                     VALUES ('',
+                      ?,
                       ?,
                       ?,
                       ?,
@@ -33,7 +34,7 @@ const createNewTag = (body) => {
     body.elevasi,
   ];
 
-  return dbPool.execute(SQLQuery, values);
+  return dbPool.execute(SQLQuery, values, [images]);
 };
 
 const getAllTag = (orderBy, sort) => {
@@ -50,7 +51,8 @@ const getAllTag = (orderBy, sort) => {
                       tb_tanaman.tanggal,
                       tb_tanaman.latitude,
                       tb_tanaman.longitude,
-                      tb_tanaman.elevasi
+                      tb_tanaman.elevasi,
+                      tb_tanaman.images
                     FROM 
                       tb_tanaman
                     JOIN 
@@ -85,7 +87,8 @@ const searchTag = (keyword, orderBy, sort) => {
                       tb_tanaman.tanggal,
                       tb_tanaman.latitude,
                       tb_tanaman.longitude,
-                      tb_tanaman.elevasi
+                      tb_tanaman.elevasi,
+                      tb_tanaman.images
                     FROM 
                       tb_tanaman
                     JOIN 

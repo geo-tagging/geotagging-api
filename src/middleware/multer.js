@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+let filename = ""; // Menggunakan let agar nilainya bisa diubah
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -8,8 +9,8 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const timestamp = new Date().getTime();
     const originalname = file.originalname;
-
-    cb(null, `${timestamp}-${originalname}`);
+    filename = `${timestamp}-${originalname}`; // Mengubah nilai filename
+    cb(null, filename);
   },
 });
 
@@ -20,4 +21,13 @@ const upload = multer({
   },
 });
 
+// Export the upload middleware
 module.exports = upload;
+
+// Export the function to get uploaded file name
+module.exports.getUploadedFileName = () => {
+  if (filename == "") {
+    filename = "empty";
+  }
+  return filename;
+};

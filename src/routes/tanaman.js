@@ -1,8 +1,11 @@
 const express = require("express");
 const controllerTag = require("../controller/tanaman.js");
+const upload = require("../middleware/multer.js");
 const routes = express.Router();
 
 routes.post("/", controllerTag.createNewTag);
+
+routes.post("/", upload.single("photo"), controllerTag.createNewTag);
 
 routes.get("/:orderBy/:sort", controllerTag.getAllTag);
 
