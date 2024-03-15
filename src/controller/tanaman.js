@@ -1,14 +1,10 @@
 const TagModel = require("../models/tanaman.js");
-const FileName = require("../middleware/multer.js"); // Import getUploadedFileName function
 
 const createNewTag = async (req, res, next) => {
   const { body } = req;
-  const images = FileName.getUploadedFileName(); // Access the uploaded file name here
-
-  // console.log(FileName.getUploadedFileName());
 
   try {
-    await TagModel.createNewTag(body, images);
+    await TagModel.createNewTag(body);
     res.json({
       message: "Create Tag Success",
       data: body,

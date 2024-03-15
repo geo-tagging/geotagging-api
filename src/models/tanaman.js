@@ -1,6 +1,6 @@
 const dbPool = require("../config/database.js");
 
-const createNewTag = (body, images) => {
+const createNewTag = (body) => {
   const SQLQuery = `INSERT INTO tb_tanaman (
                       plant_id, 
                       id_jenis, 
@@ -13,7 +13,6 @@ const createNewTag = (body, images) => {
                       elevasi
                       )
                     VALUES ('',
-                      ?,
                       ?,
                       ?,
                       ?,
@@ -34,7 +33,7 @@ const createNewTag = (body, images) => {
     body.elevasi,
   ];
 
-  return dbPool.execute(SQLQuery, values, [images]);
+  return dbPool.execute(SQLQuery, values);
 };
 
 const getAllTag = (orderBy, sort) => {
@@ -51,8 +50,7 @@ const getAllTag = (orderBy, sort) => {
                       tb_tanaman.tanggal,
                       tb_tanaman.latitude,
                       tb_tanaman.longitude,
-                      tb_tanaman.elevasi,
-                      tb_tanaman.images
+                      tb_tanaman.elevasi
                     FROM 
                       tb_tanaman
                     JOIN 
@@ -63,9 +61,9 @@ const getAllTag = (orderBy, sort) => {
                       tb_lokasi ON tb_tanaman.id_lokasi = tb_lokasi.id_lokasi
                     JOIN 
                       tb_sk ON tb_tanaman.id_sk = tb_sk.id_sk
-                    ORDER BY ? ${sort}`;
+                    ORDER BY ${orderBy} ${sort}`;
 
-  return dbPool.execute(SQLQuery, [orderBy]);
+  return dbPool.execute(SQLQuery);
 };
 
 const getTagById = (plant_id) => {
@@ -87,8 +85,7 @@ const searchTag = (keyword, orderBy, sort) => {
                       tb_tanaman.tanggal,
                       tb_tanaman.latitude,
                       tb_tanaman.longitude,
-                      tb_tanaman.elevasi,
-                      tb_tanaman.images
+                      tb_tanaman.elevasi
                     FROM 
                       tb_tanaman
                     JOIN 
@@ -119,7 +116,7 @@ const searchTag = (keyword, orderBy, sort) => {
   return dbPool.execute(SQLQuery, values);
 };
 
-const updateTag = (plant_id, body) => {
+const updateTag = (plant_id, body, images) => {
   const SQLQuery = `UPDATE tb_tanaman 
                     SET 
                       id_jenis=?, 
@@ -143,7 +140,7 @@ const updateTag = (plant_id, body) => {
     body.elevasi,
     plant_id,
   ];
-  return dbPool.execute(SQLQuery, values);
+  return dbPool.execute(SQLQuery, values, [images]);
 };
 
 const deleteTag = (plant_id) => {

@@ -5,8 +5,6 @@ const routes = express.Router();
 
 routes.post("/", controllerTag.createNewTag);
 
-routes.post("/", upload.single("photo"), controllerTag.createNewTag);
-
 routes.get("/:orderBy/:sort", controllerTag.getAllTag);
 
 routes.get("/:plant_id", controllerTag.getTagById);
